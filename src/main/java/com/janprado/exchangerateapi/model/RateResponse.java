@@ -1,9 +1,15 @@
 package com.janprado.exchangerateapi.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class RateResponse {
 
     private boolean success;
