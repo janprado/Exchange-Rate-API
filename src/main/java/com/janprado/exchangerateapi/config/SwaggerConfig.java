@@ -30,7 +30,7 @@ public class SwaggerConfig {
                 /*.host(host)*/
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.janprado.exchangerateapi.controller"))
-                .paths(regex("/webclient.*"))
+                .paths(regex("/api.*"))
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(metaInfo());
@@ -40,7 +40,7 @@ public class SwaggerConfig {
 
         ApiInfo apiInfo = new ApiInfo(
                 "Exchange Rate API",
-                "Api project destined for fetches, compare and conversion of exchange rates.",
+                "API project to fetches, compare exchange rates and to conversion of currencies values..",
                 "1.0",
                 null,
                 new Contact("Jan Prado", "https://www.linkedin.com/in/janprado/",

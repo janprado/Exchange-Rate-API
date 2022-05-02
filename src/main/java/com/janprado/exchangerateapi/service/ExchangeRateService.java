@@ -1,6 +1,7 @@
 package com.janprado.exchangerateapi.service;
 
 import com.janprado.exchangerateapi.model.ConvertResponse;
+import com.janprado.exchangerateapi.model.ConvertToSelectionResponse;
 import com.janprado.exchangerateapi.model.RateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class ExchangeRateService {
     }
 
     public Mono<RateResponse> findExchangeRateFromCurrencyAToB(String currencyA, String currencyB) {
-        log.info("fetch exchange rate from currency [{}] to currency [{}].", currencyA, currencyB);
+        log.info("Fetch exchange rate from currency [{}] to currency [{}].", currencyA, currencyB);
         return webClient
                 .get()
                 .uri("/latest?base=" + currencyA + "&symbols=" + currencyB + "&places=4")
@@ -34,7 +35,7 @@ public class ExchangeRateService {
     }
 
     public Mono<RateResponse> findAllRatesFromCurrency (String currency){
-        log.info("fetch all exchange rates from currency [{}].", currency);
+        log.info("Fetch all exchange rates from currency [{}].", currency);
         return webClient
                 .get()
                 .uri("/latest?base=" + currency + "&places=4")
@@ -46,7 +47,7 @@ public class ExchangeRateService {
 
     }
 
-    public Flux<ConvertResponse> findValueConversionFromCurrencyAtoB(String currencyA, String currencyB, Number amount) {
+    public Mono<ConvertResponse> findValueConversionFromCurrencyAtoB(String currencyA, String currencyB, Number amount) {
         log.info("Convert amount [{}] from currency [{}] to currency [{}].", amount, currencyA, currencyB);
         return webClient
                 .get()
@@ -55,7 +56,18 @@ public class ExchangeRateService {
                 .retrieve() // verificar o que faz
                 .onStatus(HttpStatus::is4xxClientError, //Verificar o que este erro retorna
                         error -> Mono.error(new RuntimeException("error, verify currencys and amount ")))
-                .bodyToFlux(ConvertResponse.class);
+                .bodyToMono(ConvertResponse.class);
     }
 
+    public Mono<RateResponse> findValueConversionFromCurrencyAtoCurrencyList(String currencyA, String currencyList, Number amount) {
+        log.info("Convert amount [{}] from currency [{}] to currency List [{}].", amount, currencyA, currencyList);
+        return webClient
+                .get()
+                .uri("/latest?base=" + currencyA + "&symbols=" + currencyList + "&amount=" + amount + "&places=2")
+                .accept(APPLICATION_JSON) // verificar accept
+                .retrieve() // verificar o que faz
+                .onStatus(HttpStatus::is4xxClientError, //Verificar o que este erro retorna
+                        error -> Mono.error(new RuntimeException("error, verify currencys "))) //entender melhor o arrow function o que faz
+                .bodyToMono(RateResponse.class);
+    }
 }
