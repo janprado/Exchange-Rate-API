@@ -6,7 +6,7 @@ import java.time.LocalDate;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ConvertResponse {
 
-    private ListConverterResponse query;
+    private QueryDataResponse query;
     private LocalDate date;
     private Double result;
 
@@ -26,11 +26,11 @@ public class ConvertResponse {
         this.result = result;
     }
 
-    public ListConverterResponse getQuery() {
+    public QueryDataResponse getQuery() {
         return query;
     }
 
-    public void setQuery(ListConverterResponse query) {
+    public void setQuery(QueryDataResponse query) {
         this.query = query;
     }
 }

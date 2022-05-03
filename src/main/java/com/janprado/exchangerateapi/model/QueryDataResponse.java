@@ -3,7 +3,7 @@ package com.janprado.exchangerateapi.model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class ListConverterResponse {
+public class QueryDataResponse {
 
     private String from;
     private String to;
